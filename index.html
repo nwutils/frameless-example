@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example</title>
+    <style>
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-flow: column;
+        background: transparent;
+        margin: 0px;
+        color: #111;
+        font-family: 'Trebuchet MS', 'Century Gothic', sans-serif;
+      }
+
+      main {
+        background: papayawhip;
+        height: 100%;
+        border-radius: 0px 0px 10px 10px;
+        padding: 7px;
+      }
+
+      h1 {
+        margin: 0px;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: salmon;
+        height: 35px;
+        padding: 0px 0px 0px 7px;
+        -webkit-app-region: drag;
+      }
+
+      .window-controls {
+        height: 100%;
+        font-size: 0px;
+        -webkit-app-region: no-drag;
+        --window-control-bg: #DDD;
+      }
+      [class^="window-control-"] {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--window-control-bg);
+        width: 35px;
+        height: 100%;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        font-size: 15px;
+        font-style: normal;
+        cursor: default;
+        vertical-align: top;
+      }
+
+      .window-control-restore:hover:before,
+      .window-control-restore:hover:after,
+      .window-control-maximize:hover:after,
+      .window-controls i:hover {
+        background: #CCC;
+      }
+      .window-control-restore:active:before,
+      .window-control-restore:active:after,
+      .window-control-maximize:active:after,
+      .window-controls i:active {
+        background: #BBB;
+      }
+
+      .window-control-minimize:before,
+      .window-control-restore:before,
+      .window-control-restore:after,
+      .window-control-maximize:after,
+      .window-control-close:before,
+      .window-control-close:after {
+        content: '';
+        display: block;
+        width: 12px;
+        height: 12px;
+        border-width: 0px;
+        border-style: solid;
+        border-color: #000;
+      }
+
+      .window-control-minimize:before {
+        border-bottom-width: 1px;
+      }
+
+      .window-control-restore:before,
+      .window-control-restore:after,
+      .window-control-maximize:after {
+        background: var(--window-control-bg);
+        border-width: 1px;
+        z-index: 2;
+      }
+      .window-control-restore:before {
+        position: absolute;
+        top: 8px;
+        margin-left: 4px;
+      }
+
+      .window-control-close {
+        position: relative;
+      }
+      .window-control-close:before,
+      .window-control-close:after {
+        position: absolute;
+        top: 12px;
+        left: 17px;
+        width: 1px;
+        border-left-width: 1px;
+      }
+      .window-control-close:before {
+        transform: rotate(45deg);
+      }
+      .window-control-close:after {
+        transform: rotate(-45deg);
+      }
+
+
+
+      /* Used by JavaScript */
+
+      .border-radius-0 {
+        border-radius: 0px;
+      }
+      .display-none {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+
+    <nav id="menu-bar">
+      <strong>Title</strong>
+
+      <div class="window-controls">
+        <i class="window-control-minimize"></i>
+        <i class="window-control-restore display-none"></i>
+        <i class="window-control-maximize"></i>
+        <i class="window-control-close"></i>
+      </div>
+    </nav>
+
+    <main id="main-content" style="background: rgba(255, 239, 213, 0.97)">
+      <h1>Content</h1>
+      <input type="range" min="0" max="100" value="97" id="slider">
+      <div>
+        <a href="simple.html">Simpler/Basic version</a>
+      </div>
+    </main>
+
+    <script>
+      function initializeWindowControls () {
+        function addClass (el, className) {
+          document.querySelector(el).classList.add(className);
+        }
+        function removeClass (el, className) {
+          document.querySelector(el).classList.remove(className);
+        }
+        function hide (el) {
+          addClass(el, 'display-none');
+        }
+        function show (el) {
+          removeClass(el, 'display-none');
+        }
+
+        let controls = [
+          'minimize',
+          'restore',
+          'maximize',
+          'close'
+        ];
+
+        controls.forEach(function (control) {
+          let button = document.getElementsByClassName('window-control-' + control)[0];
+          button.addEventListener('click', function (evt) {
+            nw.Window.get()[control]();
+          });
+        });
+
+        nw.Window.get().on('maximize', function () {
+          hide('.window-control-maximize');
+          show('.window-control-restore');
+          addClass('#main-content', 'border-radius-0');
+        });
+
+        nw.Window.get().on('restore', function () {
+          hide('.window-control-restore');
+          show('.window-control-maximize');
+          removeClass('#main-content', 'border-radius-0');
+        });
+      }
+
+      function backgroundTransparencySlider () {
+        const slider = document.getElementById('slider');
+        const main = document.getElementById('main-content');
+
+        slider.addEventListener('input', function (evt) {
+          main.style.background = 'rgba(255, 239, 213, ' + (evt.target.value / 100) + ')';
+        });
+      }
+
+      initializeWindowControls();
+      backgroundTransparencySlider();
+    </script>
+
+  </body>
+</html>

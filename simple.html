@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example</title>
+    <style>
+      body {
+        background: #FFF;
+      }
+      nav {
+        background: #AAA;
+      }
+      .float-right {
+        float: right;
+      }
+      .drag-on {
+        -webkit-app-region: drag;
+      }
+      .drag-off {
+        -webkit-app-region: no-drag;
+      }
+    </style>
+  </head>
+  <body>
+
+    <nav class="drag-on">
+      Draggable area
+      <div class="drag-off float-right">
+        <button class="window-control-minimize">minimize</button>
+        <button class="window-control-restore">restore</button>
+        <button class="window-control-maximize">maximize</button>
+        <button class="window-control-close">close</button>
+      </div>
+    </nav>
+
+    <a href="index.html">Advanced example</a>
+
+
+    <script>
+      function initializeWindowControls () {
+        let controls = [
+          'minimize',
+          'restore',
+          'maximize',
+          'close'
+        ];
+
+        controls.forEach(function (control) {
+          let button = document.getElementsByClassName('window-control-' + control)[0];
+          button.addEventListener('click', function (evt) {
+            nw.Window.get()[control]();
+          });
+        });
+      }
+
+      initializeWindowControls();
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+    "name": "example",
+    "main": "index.html",
+    "scripts": {
+        "start": "nw ."
+    },
+    "window": {
+        "frame": false,
+        "width": 468,
+        "height": 216,
+        "position": "center",
+        "transparent": true
+    },
+    "devDependencies": {
+        "nw": "sdk"
+    }
+}
