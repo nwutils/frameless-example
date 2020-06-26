@@ -2,6 +2,7 @@
 
 ![Screenshot](screenshot.gif)
 
+
 ## Features:
 
 * Custom title bar for dragging
@@ -15,3 +16,16 @@
 * Rounded corners are removed when maximized
 * Adjustable background transparency
 * Simplified example for easier copy/pasting
+
+
+## Environment set up
+
+1. Download/install [Node.js](https://nodejs.org)
+1. Download or clone the repo
+1. Run `npm install`
+
+
+## Running locally
+
+1. Do the environment setup
+1. Run `npm start`
